@@ -12,7 +12,7 @@ A DevSecOps demo project — REST API with a full security pipeline.
 ## 🛡️ Security Pipeline
 | Step | Tool | Status |
 |------|------|--------|
-| SAST | Bandit + Semgrep | 🔜 Coming |
+| SAST | Bandit + Semgrep | ✅ Active |
 | Secret Scan | Gitleaks | 🔜 Coming |
 | Dependency Audit | pip-audit | 🔜 Coming |
 | Container Scan | Trivy | 🔜 Coming |
