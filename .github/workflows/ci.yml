@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 🐍 Set up Python 3.11
         uses: actions/setup-python@v5
@@ -26,13 +28,20 @@ jobs:
         run: pytest tests/ -v
 
       - name: 🔍 SAST - Bandit
-        run: bandit -r app/ -c .bandit -f json -o reports/bandit-report.json || true
+        run: |
+          mkdir -p reports
+          bandit -r app/ -c .bandit -f json -o reports/bandit-report.json || true
 
       - name: 🔎 SAST - Semgrep
         uses: semgrep/semgrep-action@v1
         with:
           config: p/python
         continue-on-error: true
+
+      - name: 🔑 Secret Scan - Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📤 Upload Bandit report
         uses: actions/upload-artifact@v4
