@@ -43,8 +43,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📤 Upload Bandit report
+      - name: 📦 SCA - pip-audit
+        run: |
+          pip-audit -r requirements.txt -f json -o reports/pip-audit-report.json || true
+          pip-audit -r requirements.txt
+
+      - name: 📤 Upload security reports
         uses: actions/upload-artifact@v4
         with:
-          name: bandit-report
-          path: reports/bandit-report.json
+          name: security-reports
+          path: reports/

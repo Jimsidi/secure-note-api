@@ -14,7 +14,7 @@ A DevSecOps demo project — REST API with a full security pipeline.
 |------|------|--------|
 | SAST | Bandit + Semgrep | ✅ Active |
 | Secret Scan | Gitleaks | ✅ Active |
-| Dependency Audit | pip-audit | 🔜 Coming |
+| Dependency Audit | pip-audit | ✅ Active |
 | Container Scan | Trivy | 🔜 Coming |
 | DAST | OWASP ZAP | 🔜 Coming |
 
