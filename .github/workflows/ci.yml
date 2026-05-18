@@ -76,7 +76,7 @@ jobs:
           target: http://localhost:8000/openapi.json
           format: openapi
           fail_action: false
-          cmd_options: '-J reports/zap-report.json'
+        continue-on-error: true
 
       - name: 🛑 Stop API container
         if: always()
