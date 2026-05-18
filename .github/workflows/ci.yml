@@ -60,6 +60,28 @@ jobs:
           severity: CRITICAL,HIGH
           output: reports/trivy-report.txt
 
+      - name: 🚀 Start API for DAST
+        run: |
+          docker run -d \
+            --name api-for-zap \
+            -p 8000:8000 \
+            secure-note-api:${{ github.sha }}
+          echo "Waiting for API to be ready..."
+          sleep 5
+          curl -f http://localhost:8000/health
+
+      - name: 🕷️ DAST - OWASP ZAP
+        uses: zaproxy/action-api-scan@v0.9.0
+        with:
+          target: http://localhost:8000/openapi.json
+          format: openapi
+          fail_action: false
+          cmd_options: '-J reports/zap-report.json'
+
+      - name: 🛑 Stop API container
+        if: always()
+        run: docker stop api-for-zap && docker rm api-for-zap
+
       - name: 📤 Upload security reports
         uses: actions/upload-artifact@v4
         with:
